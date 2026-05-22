@@ -16,7 +16,7 @@
   ~ {
     A ← 0
     PC ← 0
-    S ← ⋕₁₆"01FF"
+    S ← ⋕₁₆"00FF"
     X ← 0
     Y ← 0
     Flags ← Flags
@@ -28,14 +28,15 @@
   V ← °⊸Flags‥V×≠⊙⟜=∩₃(⊣⋯₈)
 └─╴
 
-Addr  ← ⌅(+⊙×₂₅₆|⊃◿₂₅₆(⌊÷₂₅₆))
-TC    ← ⍜+₁₂₈◿₂₅₆
+Addr ← ⌅(+⊙×₂₅₆|⊃◿₂₅₆(⌊÷₂₅₆))
+TC   ← ⍜+₁₂₈◿₂₅₆
+# Value ? Address CPU
 Get   ← ⊡⊙CPU.M
 Stack ← ⌅(⍜CPU.S(◿₂₅₆-₁)˜⌝⊸Get⊙(+₂₅₆⊸CPU.S)|⊸Get+₂₅₆⊸CPU.S⍜CPU.S(◿₂₅₆+₁))
 I!    ← ^⍜CPU.PC+₁
 IM!   ← ^⊙⍜CPU.PC+₁⊡⊸⊃(CPU.PC|CPU.M)
 IM₂!  ← ^⊙⍜CPU.PC+₂Addr∩⌟⊡⊸⊃(⟜+₁CPU.PC|CPU.M)
-AB!   ← ^⊸Get
+AB!   ← ^⊸Get⟜(⍥(⌝⊸Get49152 0)=₄₉₁₆₈)
 AB₂!  ← ^Addr⊸∩⌟Get⟜+₁
 IDX‼  ← ^1◿₂₅₆+⊙⊸^0
 IDX₂‼ ← ^1◿₆₅₅₃₆+⊙⊸^0
@@ -43,7 +44,7 @@ IDX₂‼ ← ^1◿₆₅₅₃₆+⊙⊸^0
 LDA ← °⊸CPU.A⟜CPU.N⟜CPU.Z
 LDX ← °⊸CPU.X⟜CPU.N⟜CPU.Z
 LDY ← °⊸CPU.Y⟜CPU.N⟜CPU.Z
-STA ← ⌝⊸Get⊙⊸CPU.A
+STA ← ⨬(⋅∘|⌝⊸Get⊙⊸CPU.A)⊸<₄₉₁₅₂
 STX ← ⌝⊸Get⊙⊸CPU.X
 STY ← ⌝⊸Get⊙⊸CPU.Y
 
@@ -145,8 +146,10 @@ Run ← (⍡(
   | ⍡(I!IM!BEQ⍩°0|I!IM!AB₂!IDX₂‼CPU.Y AB!SBC⍩°1|I!ILL⍩°2|I!ILL⍩°3|I!ILL⍩°4|I!IM!IDX‼CPU.X AB!SBC⍩°5|I!IM!IDX‼CPU.X INC⍩°6|I!ILL⍩°7|I!SED⍩°8|I!IM₂!IDX₂‼CPU.Y AB!SBC⍩°9|I!ILL⍩°10|I!ILL⍩°11|I!ILL⍩°12|I!IM₂!IDX₂‼CPU.X AB!SBC⍩°13|I!IM₂!IDX₂‼CPU.X INC⍩°14|I!ILL⍩°15)⍩°15
   ) ⊃(⌊÷₁₆)◿₁₆⊸Get⊸CPU.PC)
 
-&frab "6502_functional_test.bin"
-CPU 0
-°⊸CPU.PC⋕₁₆"400"
-0
-⍥(⊸CPU.PC⋅Run)∞
+# &frab "6502_functional_test.bin"
+# CPU 0
+# °⊸CPU.PC⋕₁₆"400"
+# 0
+# 0
+# ⍥(⊸(&p⊂"Iteration: "°⋕)+₁⊙(⊸(&p⊂"PC: "°⋕)⊸CPU.PC)⊙⋅Run)∞
+# ⍢(⊸CPU.PC⋅Run|≠13417)
