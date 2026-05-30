@@ -12,14 +12,11 @@ I.Texture.LoadImage˜↯0 ˙⊟240
 
 CPU 0
 °⊸CPU.PC Addr⊸∩⌟(Get⋕₁₆) "FFFC" "FFFD"
-⌝⊸Get 54 240
-⌝⊸Get 55 253
 ⌝⊸Get 64680 96
 
-⍥(Run)5800
 I.Loop!(
-  Run
+  ⍥Run500
   ⍥(Run)×₁₀₀₀₀I.Mouse.Pressed I.Mouse.Right
-  ⨬(◌∘|⌝⊸Get49152+₁₂₈◿₁₂₈⊸&p)⊸≠₀Keyboard
+  ⨬(◌∘|⌝⊸Get49152+₁₂₈◿₁₂₈)⊸≠₀Keyboard
   ◡Disp
 )
