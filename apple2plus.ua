@@ -12,7 +12,7 @@ I.Open 1200_600 "Emulator"
 I.Texture.LoadImage˜↯0 ˙⊟480
 I.Texture.LoadImage˜↯0 256_256_3
 
-⊂⊚⋕₁₆"D000"↘8192&frab"APPLE2.ROM"
+⊂⊚⋕₁₆"D000"↘8192&frab"apple2.rom"
 
 CPU 0
 °⊸CPU.PC Addr⊸∩⌟(Get⋕₁₆) "FFFC" "FFFD"
