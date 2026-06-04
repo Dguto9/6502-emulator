@@ -7,7 +7,7 @@ DispVis    ← I.Draw.Texture⊙(600_600 600_0) °⊸I.Texture.Image↯256_256_3
 Keyboard   ← (⍡(8⍩°263|13⍩°257|43⍩°96|34⍩°39|58⍩°59|∘)I.Rayua.GetKeyPressed)
 
 FormattedTime ← ($"_\__"⊓/$"_\__"/$"_:_"⊃↙↘3 datetime now)
-SaveState     ← &fwa $"saves/_.cpu"FormattedTime compress"deflate"binary
+SaveState     ← &fwa ⍣(⊡2&args|$"saves/_.cpu"FormattedTime) compress"deflate"binary
 
 Emulate ← ⍥(⍣(⊸send0⌝⊸Get49152tryrecv0|∘)Run)∞
 
