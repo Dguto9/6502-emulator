@@ -7,7 +7,7 @@ DispVis    ← I.Draw.Texture⊙(600_600 600_0) °⊸I.Texture.Image↯256_256_3
 Keyboard   ← (⍡(8⍩°263|13⍩°257|43⍩°96|34⍩°39|58⍩°59|∘)I.Rayua.GetKeyPressed)
 
 FormattedTime ← ($"_\__"⊓/$"_\__"/$"_:_"⊃↙↘3 datetime now)
-SaveState     ← &fwa ⍣(⊡2&args|$"saves/_.cpu"FormattedTime) compress"deflate"binary
+SaveState     ← &fwa ⍣(⊡1&args|$"saves/_.cpu"FormattedTime) compress"deflate"binary
 
 Emulate ← ⍥(⍣(⊸send0⌝⊸Get49152tryrecv0|∘)Run)∞
 
@@ -16,7 +16,7 @@ I.Open 1200_600 "Emulator"
 I.Texture.LoadImage˜↯0 480_480_3
 I.Texture.LoadImage˜↯0 256_256_3
 
-⍣(°binary⌝compress"deflate"&frab ⊡1&args
+⍣(°binary⌝compress"deflate"&frab ⊡2&args
 | ⊂⊚⋕₁₆"D000"↘8192&frab"apple2.rom"
   CPU 0
   °⊸CPU.PC Addr⊸∩⌟(Get⋕₁₆) "FFFC" "FFFD"
