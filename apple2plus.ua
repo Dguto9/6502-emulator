@@ -2,19 +2,30 @@
 ~ "main.ua" ~ Addr CPU Get Run
 I ~ "gh: Marcos-cat/Iris"
 
-DispScreen ← I.Texture.Draw⊙(600_600 0_0)°⊸I.Texture.Image⍉×⌟Green layout20+×₃₂⊸=@\0+@\0◿₁₂₈⊏⊏/⊂+⌟⇡3×₃⇡8↯∞_40▽<₁₂₀⊸◿₁₂₈°⊏↙⟜↘1024CPU.M
-DispVis    ← I.Draw.Texture⊙(600_600 600_0) °⊸I.Texture.Image↯256_256_3⌝⊸⊡⊙Green⊙(⌝⊸⊡⊙Red)⊃(+₂₅₆CPU.S|CPU.PC|÷256⍉˙⊟₃CPU.M)
-Keyboard   ← (⍡(8⍩°263|13⍩°257|43⍩°96|34⍩°39|58⍩°59|∘)I.Rayua.GetKeyPressed)
+┌─╴Display
+  ~ {
+    Monitor ← I.Texture.LoadImage˜↯0 480_480_3
+    Vis ← I.Texture.LoadImage˜↯0 256_256_3
+    Mode ← 0
+  }
+  DrawMonitor ← I.Texture.Draw⊙(600_600 0_0)°⊸I.Texture.Image⊙Monitor
+  DrawVis     ← I.Draw.Texture⊙(600_600 600_0)°⊸I.Texture.Image⊙Vis
+  FlipMode    ← ⍜Mode(◿₂+₁)
+└─╴
+
+DispTextScreen ← Display.DrawMonitor⍉×⌟Green⬚0↯480_480 layout20+@\0◿₁₂₈⊏⊏/⊂+⌟⇡3×₃⇡8↯∞_40▽<₁₂₀⊸◿₁₂₈°⊏↙⟜↘1024CPU.M
+DispLRScreen   ← Display.DrawMonitor⍉×⌟Green≡▽12▽10÷15↯48_40≡⊂⊃(◿₁₆|⌊÷₁₆)⊏⊏/⊂+⌟⇡3×₃⇡8↯∞_40▽<₁₂₀⊸◿₁₂₈°⊏↙⟜↘1024CPU.M
+DispVis        ← Display.DrawVis↯256_256_3⌝⊸⊡⊙Green⊙(⌝⊸⊡⊙Red)⊃(+₂₅₆CPU.S|CPU.PC|÷256⍉˙⊟₃CPU.M)
+Keyboard       ← (⍡(8⍩°263|13⍩°257|43⍩°96|34⍩°39|58⍩°59|42⍩°343|∘)I.Rayua.GetKeyPressed)
 
 FormattedTime ← ($"_\__"⊓/$"_\__"/$"_:_"⊃↙↘3 datetime now)
-SaveState     ← &fwa ⍣(⊡1&args|$"saves/_.cpu"FormattedTime) compress"deflate"binary
+SaveState     ← &p$"_ _""Saved state:"⟜&fwa ⍣(⊡1&args|$"saves/_.cpu"FormattedTime) compress"deflate"binary
 
 Emulate ← ⍥(⍣(⊸send0⌝⊸Get49152tryrecv0|∘)Run)∞
 
 I.Open 1200_600 "Emulator"
 
-I.Texture.LoadImage˜↯0 480_480_3
-I.Texture.LoadImage˜↯0 256_256_3
+Display
 
 ⍣(°binary⌝compress"deflate"&frab ⊡2&args
 | ⊂⊚⋕₁₆"D000"↘8192&frab"apple2.rom"
@@ -26,6 +37,6 @@ I.Texture.LoadImage˜↯0 256_256_3
 spawn(Emulate)
 
 I.Loop!(
-  ◡(⟜DispScreen⟜DispVis recv)⟜send⊙1
-  ⨬(◌∘|⊸˜send+₁₂₈◿₁₂₈)⊸≠₀⟜⍡(SaveState ⍩°344|◌◌)Keyboard
+  ◡(⟜⊃(⨬(DispTextScreen|DispLRScreen) ◡⋅Display.Mode) DispVis recv)⟜send⊙1
+  ⍡(⊙∘◌⍩°0|⋅⊙Display.FlipMode⍩°258|⊙∘SaveState⍩°344|⊸˜send+₁₂₈◿₁₂₈⊙◌)Keyboard
 )
