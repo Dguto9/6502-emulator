@@ -16,7 +16,7 @@ I ~ "gh: Marcos-cat/Iris"
 DispTextScreen ← Display.DrawMonitor⍉×⌟Green⬚0↯480_480 layout20+@\0◿₁₂₈⊏⊏/⊂+⌟⇡3×₃⇡8↯∞_40▽<₁₂₀⊸◿₁₂₈°⊏↙⟜↘1024CPU.M
 DispLRScreen   ← Display.DrawMonitor⍉×⌟Green≡▽12▽10÷15↯48_40≡⊂⊃(◿₁₆|⌊÷₁₆)⊏⊏/⊂+⌟⇡3×₃⇡8↯∞_40▽<₁₂₀⊸◿₁₂₈°⊏↙⟜↘1024CPU.M
 DispVis        ← Display.DrawVis↯256_256_3⌝⊸⊡⊙Green⊙(⌝⊸⊡⊙Red)⊃(+₂₅₆CPU.S|CPU.PC|÷256⍉˙⊟₃CPU.M)
-Keyboard       ← (⍡(8⍩°263|13⍩°257|43⍩°96|34⍩°39|58⍩°59|42⍩°343|∘)I.Rayua.GetKeyPressed)
+Keyboard       ← (⍡(8⍩°263|13⍩°257|∘)-@\0I.Rayua.GetCharPressed)
 
 FormattedTime ← ($"_\__"⊓/$"_\__"/$"_:_"⊃↙↘3 datetime now)
 SaveState     ← &p$"_ _""Saved state:"⟜&fwa ⍣(⊡1&args|$"saves/_.cpu"FormattedTime) compress"deflate"binary
@@ -37,6 +37,8 @@ Display
 spawn(Emulate)
 
 I.Loop!(
-  ◡(⟜⊃(⨬(DispTextScreen|DispLRScreen) ◡⋅Display.Mode) DispVis recv)⟜send⊙1
-  ⍡(⊙∘◌⍩°0|⋅⊙Display.FlipMode⍩°258|⊙∘SaveState⍩°344|⊸˜send+₁₂₈◿₁₂₈⊙◌)Keyboard
+  ◡(⟜⊃(⨬(DispTextScreen|DispLRScreen) ◡⋅Display.Mode) DispVis recv)⟜send⊙0
+  # ⍡(⋅⊙∘⍩°0|⋅⊙Display.FlipMode⍩°258|⊙∘SaveState⍩°344|⊸˜send+₁₂₈◿₁₂₈⊙◌)Keyboard
+  ⊙⨬(⊸˜send+₁₂₈◿₁₂₈|◌)⊙(⊸=₀Keyboard)
+  ◌
 )
