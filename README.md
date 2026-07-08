@@ -3,7 +3,7 @@ To run the emulator:
 ```
 uiua run apple2plus.ua [save_filepath] [load_filepath]  
 ```
-Both save and load arguments are optional. Without save path, it will generate a unique save name. Without load path, it will default to a blank 6502 ROM. Specifiying a load path requires specifying a save path.
+Both save and load arguments are optional. Without save path, it will generate a unique save name. Without load path, it will default to a blank Apple \]\[ ROM. Specifiying a load path requires specifying a save path.
 
 While the emulator is running, pressing the right shift button will save the emulator state to the specified file path.
 
